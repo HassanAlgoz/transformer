@@ -6,7 +6,7 @@ import shutil
 import torch
 
 
-class Params():
+class Params:
     """Class that loads hyperparameters from a json file.
 
     Example:
@@ -23,7 +23,7 @@ class Params():
             self.__dict__.update(params)
 
     def save(self, json_path):
-        with open(json_path, 'w') as f:
+        with open(json_path, "w") as f:
             json.dump(self.__dict__, f, indent=4)
 
     def update(self, json_path):
@@ -38,7 +38,7 @@ class Params():
         return self.__dict__
 
 
-class RunningAverage():
+class RunningAverage:
     """A simple class that maintains the running average of a quantity
 
     Example:
@@ -82,12 +82,14 @@ def set_logger(log_path):
     if not logger.handlers:
         # Logging to a file
         file_handler = logging.FileHandler(log_path)
-        file_handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s: %(message)s'))
+        file_handler.setFormatter(
+            logging.Formatter("%(asctime)s:%(levelname)s: %(message)s")
+        )
         logger.addHandler(file_handler)
 
         # Logging to console
         stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(logging.Formatter('%(message)s'))
+        stream_handler.setFormatter(logging.Formatter("%(message)s"))
         logger.addHandler(stream_handler)
 
 
@@ -100,15 +102,19 @@ def save_checkpoint(state, is_best, checkpoint):
         is_best: (bool) True if it is the best model seen till now
         checkpoint: (string) folder where parameters are to be saved
     """
-    filepath = os.path.join(checkpoint, 'last.pth.tar')
+    filepath = os.path.join(checkpoint, "last.pth.tar")
     if not os.path.exists(checkpoint):
-        print("Checkpoint Directory does not exist! Making directory {}".format(checkpoint))
+        print(
+            "Checkpoint Directory does not exist! Making directory {}".format(
+                checkpoint
+            )
+        )
         os.mkdir(checkpoint)
     else:
         print("Checkpoint Directory exists! ")
     torch.save(state, filepath)
     if is_best:
-        shutil.copyfile(filepath, os.path.join(checkpoint, 'best.pth.tar'))
+        shutil.copyfile(filepath, os.path.join(checkpoint, "best.pth.tar"))
 
 
 def load_checkpoint(checkpoint, model, optimizer=None):
@@ -123,9 +129,9 @@ def load_checkpoint(checkpoint, model, optimizer=None):
     if not os.path.exists(checkpoint):
         raise ("File doesn't exist {}".format(checkpoint))
     checkpoint = torch.load(checkpoint)
-    model.load_state_dict(checkpoint['state_dict'])
+    model.load_state_dict(checkpoint["state_dict"])
 
     if optimizer:
-        optimizer.load_state_dict(checkpoint['optim_dict'])
+        optimizer.load_state_dict(checkpoint["optim_dict"])
 
     return checkpoint
