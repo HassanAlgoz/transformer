@@ -11,7 +11,7 @@ This repo is for learning purposes.
 
 Given a tweet-sized text, can the model tell whether it is `spam`?
 
-## Download the dataset
+## The Dataset
 
 1. Visit https://www.kaggle.com/code/matleonard/text-classification/input?select=spam.csv and look for `spam.csv` and download it.
 
@@ -19,8 +19,16 @@ Given a tweet-sized text, can the model tell whether it is `spam`?
 
 3. Run the notebook `split_data.ipynb` to split it into: `trian, test, dev` sets
 
+Here is what `spam.csv` looks like:
 
-## Your first experiment
+```
+label,text
+ham,Ahhh. Work. I vaguely remember that! What does it feel like? Lol
+ham,I see the letter B on my car
+spam,Thanks for your subscription to Ringtone UK your mobile will be charged å£5/month Please confirm by replying YES or NO. If you reply NO you will not be charged
+```
+
+## Experimentation
 
 We created a `base_model` directory for you under the `experiments` directory. It contains a file `params.json` which sets the hyperparameters for the experiment. It looks like
 
@@ -43,7 +51,7 @@ python train.py --data_dir data/small --model_dir experiments/base_model
 It will instantiate a model and train it on the training set following the hyperparameters specified in `params.json`. It will also evaluate some metrics on the development set.
 
 
-## Your first hyperparameters search
+## Hyperparameters search
 
 We created a new directory `learning_rate` in `experiments` for you. Now, run:
 
