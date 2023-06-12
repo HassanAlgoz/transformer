@@ -28,6 +28,8 @@ ham,I see the letter B on my car
 spam,Thanks for your subscription to Ringtone UK your mobile will be charged å£5/month Please confirm by replying YES or NO. If you reply NO you will not be charged
 ```
 
+Small data can be useful in searching for hyper-parameters. Then, for actual training, the more the better.
+
 ## Experimentation
 
 We created a `base_model` directory for you under the `experiments` directory. It contains a file `params.json` which sets the hyperparameters for the experiment. It looks like
