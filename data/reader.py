@@ -18,11 +18,12 @@ class Dataset(data.Dataset):
                     if w in embeddings_kv
                 ]
                 # pad with dots (must pad for input to be accepted; since inputs must be of same size)
-                ws += [embeddings_kv.key_to_index['.']] * (length - len(ws))
+                ws += [embeddings_kv.key_to_index["."]] * (length - len(ws))
                 xs.append(ws[:length])
                 ys.append(int(row[0] == "spam"))
         self.xs = torch.LongTensor(xs)
         self.ys = torch.LongTensor(ys)
+
     def __len__(self):
         return len(self.xs)
 

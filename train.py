@@ -238,7 +238,9 @@ if __name__ == "__main__":
     logging.info("Loading the datasets...")
 
     # load data
-    train_dataset = Dataset("train", args.data_dir, embeddings_kv, params.max_input_length)
+    train_dataset = Dataset(
+        "train", args.data_dir, embeddings_kv, params.max_input_length
+    )
     train_data_loader = DataLoader(
         train_dataset, batch_size=params.batch_size, shuffle=True
     )

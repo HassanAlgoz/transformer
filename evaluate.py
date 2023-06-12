@@ -131,7 +131,9 @@ if __name__ == "__main__":
     logging.info("Creating the dataset...")
 
     # load data
-    test_dataset = Dataset("test", args.data_dir, embeddings_kv, params.max_input_length)
+    test_dataset = Dataset(
+        "test", args.data_dir, embeddings_kv, params.max_input_length
+    )
     test_data_loader = DataLoader(
         test_dataset, batch_size=params.batch_size, shuffle=True
     )

@@ -105,3 +105,6 @@ venv.bak/
 
 glove.*
 *.pt
+*.pth.tar
+data/**/*.csv
+.vscode

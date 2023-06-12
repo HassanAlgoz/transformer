@@ -11,6 +11,6 @@ class LayerNorm(nn.Module):
 
     def forward(self, x):
         mean = x.mean(-1, keepdim=True)
-        var = x.var(-1, keepdim=True) # using var is supported in GPU
+        var = x.var(-1, keepdim=True)  # using var is supported in GPU
         std = torch.sqrt(var)
         return self.gamma * (x - mean) / (std + 1e-5) + self.beta
