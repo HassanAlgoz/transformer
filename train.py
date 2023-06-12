@@ -39,6 +39,7 @@ parser.add_argument(
 
 def train(
     *,
+    device,
     model: torch.nn.Module,
     optimizer: torch.optim,
     loss_fn: Callable,
@@ -69,7 +70,9 @@ def train(
     # Use tqdm for progress bar
     t = trange(num_steps)
     for i in t:
-        data = next(data_iterator)
+        data = next(data_iterator, None)
+        if data == None:
+            break
         input = data[0].to(device)
         expected_output = data[1].to(device)
 
@@ -102,7 +105,7 @@ def train(
         t.set_postfix(loss="{:05.3f}".format(loss_avg()))
 
     # compute mean of all metrics in summary
-    metrics_mean = {metric: np.mean([x[metric] for x in summ]) for metric in summ[0]}
+    metrics_mean = {metric: np.mean([x[metric] for x in summ]) for metric in metrics}
     metrics_string = " ; ".join(
         "{}: {:05.3f}".format(k, v) for k, v in metrics_mean.items()
     )
@@ -111,6 +114,7 @@ def train(
 
 def train_and_evaluate(
     *,
+    device,
     model: torch.nn.Module,
     train_data_loader: DataLoader,
     val_data_loader: DataLoader,
@@ -149,10 +153,11 @@ def train_and_evaluate(
         # compute number of batches in one epoch (one full pass over the training set)
         num_steps = (params.train_size + 1) // params.batch_size
         train(
+            device=device,
             model=model,
             optimizer=optimizer,
             loss_fn=loss_fn,
-            train_data_iterator=train_data_loader,
+            data_iterator=iter(train_data_loader),
             metrics=metrics,
             params=params,
             num_steps=num_steps,
@@ -161,9 +166,10 @@ def train_and_evaluate(
         # Evaluate for one epoch on validation set
         num_steps = (params.val_size + 1) // params.batch_size
         val_metrics = evaluate(
+            device=device,
             model=model,
             loss_fn=loss_fn,
-            val_data_iterator=val_data_loader,
+            data_iterator=iter(val_data_loader),
             metrics=metrics,
             params=params,
             num_steps=num_steps,
@@ -228,32 +234,21 @@ if __name__ == "__main__":
     )
     embeddings = torch.tensor(embeddings_kv.vectors)
 
-    label_to_idx = {
-        "none": 0,
-        "against": 1,
-        "favor": 2,
-    }
-    idx_to_label = {
-        0: "none",
-        1: "against",
-        2: "favor",
-    }
-
     # Create the input data pipeline
     logging.info("Loading the datasets...")
 
     # load data
-    train_dataset = Dataset("train", args.data_dir, embeddings_kv)
+    train_dataset = Dataset("train", args.data_dir, embeddings_kv, params.max_input_length)
     train_data_loader = DataLoader(
         train_dataset, batch_size=params.batch_size, shuffle=True
     )
-    params["train_size"] = len(train_dataset)
+    params.train_size = len(train_dataset)
 
-    val_dataset = Dataset("val", args.data_dir, embeddings_kv)
+    val_dataset = Dataset("val", args.data_dir, embeddings_kv, params.max_input_length)
     val_data_loader = DataLoader(
         val_dataset, batch_size=params.batch_size, shuffle=True
     )
-    params["val_size"] = len(val_dataset)
+    params.val_size = len(val_dataset)
 
     # Define the model and optimizer
     logging.info("Initializing model...")
@@ -274,13 +269,14 @@ if __name__ == "__main__":
 
     logging.info("Start training for {} epoch(s)...".format(params.num_epochs))
     train_and_evaluate(
-        model,
-        train_data_loader,
-        val_data_loader,
-        optimizer,
-        loss_fn,
-        metrics,
-        params,
-        args.model_dir,
-        args.restore_file,
+        device=device,
+        model=model,
+        train_data_loader=train_data_loader,
+        val_data_loader=val_data_loader,
+        optimizer=optimizer,
+        loss_fn=loss_fn,
+        metrics=metrics,
+        params=params,
+        model_dir=args.model_dir,
+        restore_file=args.restore_file,
     )

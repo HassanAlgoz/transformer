@@ -4,8 +4,8 @@
     "num_epochs": 25,
 
     "max_input_length": 30,
-    "num_heads": 20,
-    "num_layers": 3,
+    "num_heads": 10,
+    "num_layers": 2,
     "num_classes": 3,
 
     "save_summary_steps": 100

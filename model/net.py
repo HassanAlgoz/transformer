@@ -66,7 +66,7 @@ loss_fn = torch.nn.CrossEntropyLoss()
 
 
 def accuracy(outputs, labels):
-    y_pred = torch.argmax(outputs, dim=1)
+    y_pred = np.argmax(outputs, axis=1)
     sum_correct = (y_pred == labels).sum().item()
     num_total = labels.shape[0]
     return sum_correct / num_total
