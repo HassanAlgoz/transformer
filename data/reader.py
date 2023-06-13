@@ -4,12 +4,11 @@ import os
 import torch
 from torch.utils import data
 
-
 class Dataset(data.Dataset):
     def __init__(self, split, data_dir, embeddings_kv, length):
         xs = []
         ys = []
-        with open(os.path.join(data_dir, split, "spam.csv")) as f:
+        with open(os.path.join(data_dir, split, "yelp_ratings.csv")) as f:
             reader = csv.reader(f)
             for row in reader:
                 ws = [
@@ -20,7 +19,7 @@ class Dataset(data.Dataset):
                 # pad with dots (must pad for input to be accepted; since inputs must be of same size)
                 ws += [embeddings_kv.key_to_index["."]] * (length - len(ws))
                 xs.append(ws[:length])
-                ys.append(int(row[0] == "spam"))
+                ys.append(int(row[0] == 1))
         self.xs = torch.LongTensor(xs)
         self.ys = torch.LongTensor(ys)
 
