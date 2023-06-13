@@ -1,6 +1,6 @@
-import csv
 import os
 
+import pandas as pd
 import torch
 from torch.utils import data
 
@@ -8,18 +8,18 @@ class Dataset(data.Dataset):
     def __init__(self, split, data_dir, embeddings_kv, length):
         xs = []
         ys = []
-        with open(os.path.join(data_dir, split, "yelp_ratings.csv")) as f:
-            reader = csv.reader(f)
-            for row in reader:
-                ws = [
-                    embeddings_kv.key_to_index[w]
-                    for w in row[1].split(" ")
-                    if w in embeddings_kv
-                ]
-                # pad with dots (must pad for input to be accepted; since inputs must be of same size)
-                ws += [embeddings_kv.key_to_index["."]] * (length - len(ws))
-                xs.append(ws[:length])
-                ys.append(int(row[0] == 1))
+        df = pd.read_csv(os.path.join(data_dir, split, "yelp_ratings.csv"))
+        for text in df['text']:
+            ws = [
+                embeddings_kv.key_to_index[w]
+                for w in text.split(" ")
+                if w in embeddings_kv
+            ]
+            # pad with dots (must pad for input to be accepted; since inputs must be of same size)
+            ws += [embeddings_kv.key_to_index["."]] * (length - len(ws))
+            xs.append(ws[:length])
+        for label in df['sentiment']:
+            ys.append(int(label == 1))
         self.xs = torch.LongTensor(xs)
         self.ys = torch.LongTensor(ys)
 
