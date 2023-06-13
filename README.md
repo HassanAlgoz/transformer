@@ -31,7 +31,8 @@ Here is what `yelp_ratings.csv` looks like:
 1,"Sabrina is my stylist. She always has great advice about how to style my hair and what products to use."
 ```
 
-Small data can be useful in searching for hyper-parameters. Then, for actual training, the more the better.
+- Note that we have dropped the `stars` column, and have made the `sentiment` the first column.
+- Small data can be useful in searching for hyper-parameters. Then, for actual training, the more the better.
 
 ## Experimentation
 
