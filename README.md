@@ -6,6 +6,16 @@ This repo is for learning purposes.
 |:-|:-|
 | Acknowledgement | this repo is adapted from: https://cs230.stanford.edu/blog/pytorch/ |
 
+My work on the repo was:
+
+- add code piece by piece to make sure I get to understand it
+- build the transformer following the ["Attention Is All You Need" paper](https://arxiv.org/abs/1706.03762) (decoder is yet to be implemented)
+   - However, the encoder was enough to build a sentiment analysis model
+- using DirectML for Radeon GPU support
+- add `explore.ipynb` for understanding the data
+- add `inspect.ipynb` for trained model analysis
+- simplify data loader
+- use torch 2.0 (thanks to backward compatability with torch 1.x, I did not face any issues with this)
 
 ## Task
 
