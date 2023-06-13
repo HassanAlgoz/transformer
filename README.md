@@ -34,6 +34,19 @@ Here is what `yelp_ratings.csv` looks like:
 - Note that we have dropped the `stars` column, and have made the `sentiment` the first column.
 - Small data can be useful in searching for hyper-parameters. Then, for actual training, the more the better.
 
+
+## Explore
+
+The purpose of `explore.ipynb` is for gaining a better understanding of the data. Things like:
+
+- Check for missing values
+- Look at the distribution of the target variable
+- Investigate relationships between features
+- Visualize the data in various ways
+- Check for any outliers or anomalies
+- Gain insights that will help inform further analysis and modeling
+
+
 ## Experimentation
 
 We created a `base_model` directory for you under the `experiments` directory. It contains a file `params.json` which sets the hyperparameters for the experiment. It looks like
@@ -83,6 +96,19 @@ python evaluate.py --data_dir data/small --model_dir experiments/base_model
 ```
 
 Note that `evaluate.py` has an `evaluate()` function, which `train.py` use to evaluate against the `val`idation set, whereas doing `python evaluate.py` does the evaluation against the `test` set.
+
+
+## Inspect
+
+The purpose of `inspect.ipynb` is to analyze the model.
+
+- Identify any potential issues
+   - Consistently incorrect labels for certain examples
+   - Overfitting or underfitting certain types of examples
+- Investigate how the model made predictions by:
+   - Reviewing the most important features
+   - Examining how changes to the input values affect the predictions
+- Form hypotheses for how to improve the model
 
 
 ## File structure semantics
