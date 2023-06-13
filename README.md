@@ -9,23 +9,26 @@ This repo is for learning purposes.
 
 ## Task
 
-Given a tweet-sized text, can the model tell whether it is `spam`?
+Given a text, can the model predict its label? e.g., spam/ham or positive/negative
 
 ## The Dataset
 
-1. Visit https://www.kaggle.com/code/matleonard/text-classification/input?select=spam.csv and look for `spam.csv` and download it.
+1. Visit https://www.kaggle.com/code/matleonard/text-classification/input?select=yelp_ratings.csv and look for `yelp_ratings.csv` and download it.
 
-2. Place the `spam.csv` as `data/small/span.csv`
+2. Place the `yelp_ratings.csv` as `data/yelp_ratings.csv`
 
-3. Run the notebook `split_data.ipynb` to split it into: `trian, test, dev` sets
+3. Explore the data using `explore.ipynb`
 
-Here is what `spam.csv` looks like:
+4. Run the notebook `split_data.ipynb` to split it into: `trian, test, dev` sets
+
+Here is what `yelp_ratings.csv` looks like:
 
 ```
-label,text
-ham,Ahhh. Work. I vaguely remember that! What does it feel like? Lol
-ham,I see the letter B on my car
-spam,Thanks for your subscription to Ringtone UK your mobile will be charged å£5/month Please confirm by replying YES or NO. If you reply NO you will not be charged
+"sentiment","text"
+1,"Excellent food and staff.
+ I hope the course hasn't undergone any changes like the restaurant atmosphere and food has!"
+0,"I really, really wanted to like The Chickery. I imagine this is what prison food is like."
+1,"Sabrina is my stylist. She always has great advice about how to style my hair and what products to use."
 ```
 
 Small data can be useful in searching for hyper-parameters. Then, for actual training, the more the better.
@@ -84,13 +87,8 @@ Note that `evaluate.py` has an `evaluate()` function, which `train.py` use to ev
 ## File structure semantics
 
 - `data`
-   - `embeddings`         - input vocabulary as vectors     
-   - `reader.py`          - defines how to read the dataset        
-   - `small`
-      - `spam.csv`        - original dataset (before being split)         
-      - `test`
-      - `train`
-      - `val`
+   - `embeddings`         - input vocabulary as vectors
+   - `reader.py`          - defines how to read the dataset
 - `evaluate.py`
 - `experiments`
    - `base_model`
